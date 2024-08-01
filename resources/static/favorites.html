@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My List - SudePurr</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <h1>SudePurr</h1>
+            </div>
+            <nav class="navBar">
+                <div class="open-btn" id="open">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+                <div class="nav-items">
+                    <ul class="list">
+                        <li><a href="/home">Home</a></li>
+                        <li><a href="#" data-target="movies-title">Movies</a></li>
+                        <li><a href="#" data-target="tv-series-title">TV Series</a></li>
+                        <li><a href="#" data-target="new-releases-title">New Releases</a></li>
+                        <li><a href="favorites.html">My List</a></li>
+                        <div class="close-btn" id="close">
+                            <i class="fa-solid fa-xmark"></i>
+                        </div>
+                    </ul>
+                    <ul class="user">
+                        <!-- Kalan kodlar -->
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <div id="favorites-container" class="movies-container">
+            <!-- Favori filmler burada gösterilecek -->
+        </div>
+    </div>
+    <script>
+		const IMG_PATH = 'https://image.tmdb.org/t/p/w1280';
+		const favoritesContainer = document.getElementById('favorites-container');
+		
+		document.addEventListener('DOMContentLoaded', () => {
+		    if (favoritesContainer) {
+		        displayFavorites();
+		    }
+		});
+		
+		async function displayFavorites() {
+		    const user = JSON.parse(localStorage.getItem('user'));
+		    if (user) {
+		        try {
+		            const response = await fetch(`/api/favorites?user=${user.email}`);
+		            const favorites = await response.json();
+		            if (favorites.length > 0) {
+		                showFavorites(favorites);
+		            } else {
+		                favoritesContainer.innerHTML = '<p>No favorites found.</p>';
+		            }
+		        } catch (error) {
+		            console.error('Error fetching favorites:', error);
+		        }
+		    } else {
+		        favoritesContainer.innerHTML = '<p>Please log in to view your favorite movies.</p>';
+		    }
+		}
+		
+		function showFavorites(favorites) {
+		    favoritesContainer.innerHTML = '';
+		    favorites.forEach(movie => {
+		        const { title, poster_path, vote_average, genre_ids, id } = movie;
+		        const movieEl = document.createElement('div');
+		        movieEl.classList.add('cards');
+		        movieEl.innerHTML = `
+		            <a href="movieInfo.html?id=${id}">
+		                <div class="card-img">
+		                    <img src="${IMG_PATH + poster_path}" alt="${title}">
+		                    <div class="img-title">
+		                        <h4>${vote_average}</h4>
+		                        <p>IMDb</p>
+		                    </div>
+		                </div>
+		                <div class="card-title">
+		                    <h3>${title}</h3>
+		                </div>
+		            </a>
+		        `;
+		        favoritesContainer.appendChild(movieEl);
+		    });
+		}
+
+	</script>
+</body>
+</html>

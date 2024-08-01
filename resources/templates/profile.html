@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Lemon&family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    
+    <title>Movie Info</title>
+    <style >
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400&display=swap');
+
+        :root{
+
+            --red:#880808;
+            --black: #101116;
+            --gray: #bebebe;
+            --light-gray: #d9d9d9;
+            --comment-box: #171B27;
+            --comment:#555D68;
+            --comment-date:#8A8A8A;
+            --warning:#E22C2C;
+            --yellow:#EEE62F;
+        }
+
+        ::-webkit-scrollbar{
+            width: 18px;
+        }
+        ::-webkit-scrollbar-track{
+            background: var(--comment-box);
+        }
+        ::-webkit-scrollbar-thumb{
+            background: var(--comment);
+        }
+
+
+        a{
+            text-decoration: none;
+        }
+        i{
+            cursor: pointer;
+        }
+        li{
+            list-style-type: none;
+        }
+        img{
+            cursor: pointer;
+        }
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            width: 100%;
+            font-family: 'Montserrat',sans-serif;
+            background-color: #0B1118;
+        }
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        /* ------HEADER------ */
+        .container{
+            position: relative;
+            width: 100%;
+            height: auto;
+            z-index: 55;
+        }
+        .container .header{
+            width: 100%;
+            height: 70px;
+            padding: 2rem 10%;
+            z-index: 55;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header .logo h1{
+            color: var(--red);
+            font-size: 2.4rem;
+            cursor: pointer;
+            font-family: 'Lemon',cursive;
+        }
+        .navBar .nav-items{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .navBar ul{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .navBar ul li a{
+            color: #fff;
+            font-size: 1.15rem;
+            font-weight: 600;
+            transition: color 0.25s ease-in-out;
+            -webkit-transition: color 0.25s ease-in-out;
+            -moz-transition: color 0.25s ease-in-out;
+            -ms-transition: color 0.25s ease-in-out;
+            -o-transition: color 0.25s ease-in-out;
+        }
+        .navBar ul li a:hover{
+            color: var(--red);
+        }
+        .navBar .user i{
+            font-size: 1.3rem;
+            color: #fff;
+            transition: color 0.25s ease-in-out;
+           -webkit-transition: color 0.25s ease-in-out;
+            -moz-transition: color 0.25s ease-in-out;
+            -ms-transition: color 0.25s ease-in-out;
+            -o-transition: color 0.25s ease-in-out;
+        }
+
+        .navBar .user i:hover{
+            color: var(--red);
+        }
+
+        .navBar .close-btn i{
+            font-size: 2.4rem;
+            color: #fff;
+            position: absolute;
+            top: 2rem;
+            right: 3rem;
+            display: none;
+        }
+
+        .header .navBar .open-btn{
+            position: absolute;
+            right: 4rem;
+            top: 1.5rem;
+            color: #fff;
+            font-size: 2rem;
+            display: none;
+        }
+
+        .search {
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            border-radius: 50px;
+            font-family: inherit;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            color: #fff;
+        }
+        .hidden {
+            display: none;
+        }
+        .visible {
+            display: block;
+        }
+
+        #searchForm.visible {
+            display: inline-block;
+        }
+
+        .fa-magnifying-glass {
+            cursor: pointer;
+       }
+
+
+
+        .search::placeholder {
+            color: #7378c5;
+        }
+
+        .search:focus {
+            outline: none;
+            background-color: var(--transparent);
+        }
+        /* ------------ */
+        
+        /* ------------ */
+
+        .subscribe{
+            width: 100%;
+            height: 300px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-image: url(./images/subscribe.svg);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 0 5%;
+            margin-top: 4rem;
+        }
+
+        .subscribe .subs-content{
+            width: 600px;
+        }
+        .subs-content h3{
+            color: #fff;
+            font-size: 1.6rem;
+            font-weight: 500;
+        }
+        .subscribe .subs-btn{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .subs-btn .email{
+            width: 270px;
+            height: 40px;
+            background-color: transparent;
+            font-family: 'Montserrat',sans-serif;
+            color: #d9d9d9;
+            padding: 0 1rem;
+            border: 2px solid var(--red);
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+            position: relative;
+        }
+        .subs-btn .email:focus{
+            border: 2px solid var(--red);
+            outline: none;
+        }
+        .subs-btn .email::placeholder{
+            color: var(--comment);
+        }
+
+        .subs-btn .input-btn{
+            position: relative;
+            left: -5px;
+            width: 125px;
+            height: 40px;
+            background-color: var(--red);
+            color: #fff;
+            font-family:'Montserrat',sans-serif;
+            font-weight: 600;
+            border: none;
+            outline: none;
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+            cursor: pointer;
+            transition: all 0.25s ease-in-out;
+            -webkit-transition: all 0.25s ease-in-out;
+            -moz-transition: all 0.25s ease-in-out;
+            -ms-transition: all 0.25s ease-in-out;
+            -o-transition: all 0.25s ease-in-out;
+        }
+
+        .subs-btn .input-btn:hover{
+            background-color: #d9d9d9;
+            color: var(--red);
+        }
+
+
+        /* ------------ */
+        .footer{
+            position: relative;
+            width: 100%;
+            height: 120px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            background-color: #171B27;
+        }
+
+        .footer div{
+            height: 60px;
+        }
+        .footer h4{
+            color: #d9d9d9;
+            margin-top: 0.4rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .footer .footer-social{
+            margin-top: 0.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .footer-social i{
+            width: 29px;
+            height: 29px;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            -o-border-radius: 50%;
+            background-color: var(--red);
+            color: var(--black);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.2s ease;
+            -webkit-transition: all 0.2s ease;
+            -moz-transition: all 0.2s ease;
+            -ms-transition: all 0.2s ease;
+            -o-transition: all 0.2s ease;
+        }
+
+        .footer-social i:hover{
+            background-color: var(--black);
+            color: var(--red);
+            transform: scale(1.1);
+            -webkit-transform: scale(1.1);
+            -moz-transform: scale(1.1);
+            -ms-transform: scale(1.1);
+            -o-transform: scale(1.1);
+        }
+
+        /* ------------ */
+        
+         main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+        .profile-container {
+            width: 80%;
+            background-color: #171B27;
+            padding: 2rem;
+            border-radius: 10px;
+            color: #d9d9d9;
+            margin-bottom: 2rem;
+        }
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .profile-header h2 {
+            font-size: 2rem;
+            color: #fff;
+        }
+        .profile-info {
+            margin-bottom: 2rem;
+        }
+        .profile-info p {
+            margin: 0.5rem 0;
+        }
+        .favorite-films, .plan-to-watch {
+            margin-bottom: 2rem;
+        }
+        .favorite-films h3, .plan-to-watch h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .film-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .film-item {
+            width: 150px;
+            background-color: #101116;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .film-item img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .film-item p {
+            margin-top: 0.5rem;
+            font-size: 1rem;
+            color: #d9d9d9;
+        }
+
+
+
+        /* ------------ */
+
+
+        @media(max-width:1200px){
+            .header .navBar .nav-items{
+                display: none;
+                height: 100vh;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                background-color: var(--red);
+                transition: top 1s ease;
+                -webkit-transition: top 1s ease;
+                -moz-transition: top 1s ease;
+                -ms-transition: top 1s ease;
+                -o-transition: top 1s ease;
+            }
+            .header .navBar .list{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+            .header .navBar .list a{
+                font-size: 1.35rem;
+            }
+            .navBar .list a:hover{
+                color: var(--comment-box);
+            }
+            .header .navBar .list .close-btn i{
+                display: block;
+            }
+            .header .navBar .open-btn{
+                display: block;
+            }
+            .navBar .user{
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 55;
+            }
+            .navBar .user li i{
+                font-size: 1.5rem;
+            }
+            .navBar .user li i:hover{
+                color: var(--comment-box);
+            }
+
+            .subscribe{
+                height: 300px;
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto;
+                padding: 0 5%;
+            }
+
+            .subscribe .subs-content{
+                width: 90%;
+                padding: 0 7%;
+            }
+            .subs-content h3{
+                font-size: 1.25rem;
+            }
+            .subs-btn{
+                display: flex;
+                justify-content: center;
+                margin-top: 2rem;
+            }
+            .subs-btn .email{
+                width: 175px;
+                height: 30px;
+                font-size: 0.65rem;
+            }
+            .subs-btn .input-btn{
+                width: 80px;
+                height: 30px;
+                font-size: 0.5rem;
+            }
+
+            .footer{
+                height: 500px;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                gap: 2rem;
+            }
+        }
+        
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <h1>SudePurr</h1>
+            </div>
+                
+                <nav class="navBar">
+                    <div class="open-btn" id="open">
+                        <i class="fa-solid fa-bars"></i>
+                    </div>
+                    <div class="nav-items">
+                        <ul class="list">
+                            <li><a href="/home" id="homeLink">Home</a></li>
+                            <li><a href="#" data-target="movies-title">Movies</a></li>
+                            <li><a href="#" data-target="tv-series-title">TV Series</a></li>
+                            <li><a href="#" data-target="new-releases-title" > New Releases</a></li>
+                            <li><a href="#">My List</a></li>
+                            <div class="close-btn" id="close">
+                                <i class="fa-solid fa-xmark"></i>
+                            </div>
+                        </ul>
+                        <ul class="user">
+                           <li>
+                                <i class="fa-solid fa-magnifying-glass" id="searchIcon"></i>
+                                <form id="searchForm" class="hidden">
+                                    <input type="text" name="search" id="search" class="search" placeholder="Search">
+                                </form>
+                            </li>
+
+                           <li sec:authorize="isAuthenticated()">
+                                <a href="/logout" class="fa-solid fa-right-from-bracket" id="logout"></a>
+                            </li>
+            
+                            <li sec:authorize="isAuthenticated()">
+                                <a class="fa-solid fa-user" href="/profile.html" id="profileLink"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+        </header>
+           
+    </div>
+    <main>
+        <div class="profile-container">
+            <div class="profile-header">
+                <h2>User Profile</h2>
+            </div>
+            <div class="profile-info">
+                <p><strong>First Name:</strong> <span th:text="${user.firstName}"></span></p>
+                <p><strong>Last Name:</strong> <span th:text="${user.lastName}"></span></p>
+                <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+            </div>
+            <div class="favorite-films">
+                <h3>Favorite Films</h3>
+                <div class="film-list">
+                    <div class="film-item">
+                        <img src="path/to/image1.jpg" alt="Film 1">
+                        <p>Film Title 1</p>
+                    </div>
+                    <div class="film-item">
+                        <img src="path/to/image2.jpg" alt="Film 2">
+                        <p>Film Title 2</p>
+                    </div>
+                    <!-- More film items here -->
+                </div>
+            </div>
+            <div class="plan-to-watch">
+                <h3>Plan to Watch</h3>
+                <div class="film-list">
+                    <div class="film-item">
+                        <img src="path/to/image3.jpg" alt="Film 3">
+                        <p>Film Title 3</p>
+                    </div>
+                    <div class="film-item">
+                        <img src="path/to/image4.jpg" alt="Film 4">
+                        <p>Film Title 4</p>
+                    </div>
+                    <!-- More film items here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <div class="subscribe">
+        <div class="subs-content">
+            <h3>Subscribe to the newsletter and be the first to know about new releases of your favourite TV series and movies</h3>
+        </div>
+        <div class="subs-btn">
+            <input type="email" class="email" placeholder="Your email address...">
+            <input type="button" value="Subscribe now" class="input-btn">
+        </div>
+    </div>
+
+
+    <footer class="footer">
+        <div>
+            <h4>Movies</h4>
+            <h4>TV Series</h4>
+            <h4>Animated Movies</h4>
+        </div>
+        <div>
+            <h4>Privacy Policy</h4>
+            <h4>Cookie Policy</h4>
+            <h4>Terms of Use</h4>
+        </div>
+        <div>
+            <h4>Help Center</h4>
+            <h4>Support</h4>
+            <h4>FAQ</h4>
+        </div>
+        <div>
+            <h4>Follow Us</h4>
+            <div class="footer-social">
+                <i class="fa-brands fa-instagram"></i>
+                <i class="fa-brands fa-facebook-f"></i>
+                <i class="fa-brands fa-twitter"></i>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

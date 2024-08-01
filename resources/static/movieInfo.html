@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Lemon&family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    
+    <title>Movie Info</title>
+    <style >
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400&display=swap');
+
+        :root{
+
+            --red:#880808;
+            --black: #101116;
+            --gray: #bebebe;
+            --light-gray: #d9d9d9;
+            --comment-box: #171B27;
+            --comment:#555D68;
+            --comment-date:#8A8A8A;
+            --warning:#E22C2C;
+            --yellow:#EEE62F;
+        }
+
+        ::-webkit-scrollbar{
+            width: 18px;
+        }
+        ::-webkit-scrollbar-track{
+            background: var(--comment-box);
+        }
+        ::-webkit-scrollbar-thumb{
+            background: var(--comment);
+        }
+
+
+        a{
+            text-decoration: none;
+        }
+        i{
+            cursor: pointer;
+        }
+        li{
+            list-style-type: none;
+        }
+        img{
+            cursor: pointer;
+        }
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            width: 100%;
+            font-family: 'Montserrat',sans-serif;
+            background-color: #0B1118;
+        }
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        /* ------HEADER------ */
+        .container{
+            position: relative;
+            width: 100%;
+            height: auto;
+            z-index: 55;
+        }
+        .container .header{
+            width: 100%;
+            height: 70px;
+            padding: 2rem 10%;
+            z-index: 55;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header .logo h1{
+            color: var(--red);
+            font-size: 2.4rem;
+            cursor: pointer;
+            font-family: 'Lemon',cursive;
+        }
+        .navBar .nav-items{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .navBar ul{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .navBar ul li a{
+            color: #fff;
+            font-size: 1.15rem;
+            font-weight: 600;
+            transition: color 0.25s ease-in-out;
+            -webkit-transition: color 0.25s ease-in-out;
+            -moz-transition: color 0.25s ease-in-out;
+            -ms-transition: color 0.25s ease-in-out;
+            -o-transition: color 0.25s ease-in-out;
+        }
+        .navBar ul li a:hover{
+            color: var(--red);
+        }
+        .navBar .user i{
+            font-size: 1.3rem;
+            color: #fff;
+            transition: color 0.25s ease-in-out;
+           -webkit-transition: color 0.25s ease-in-out;
+            -moz-transition: color 0.25s ease-in-out;
+            -ms-transition: color 0.25s ease-in-out;
+            -o-transition: color 0.25s ease-in-out;
+        }
+
+        .navBar .user i:hover{
+            color: var(--red);
+        }
+
+        .navBar .close-btn i{
+            font-size: 2.4rem;
+            color: #fff;
+            position: absolute;
+            top: 2rem;
+            right: 3rem;
+            display: none;
+        }
+
+        .header .navBar .open-btn{
+            position: absolute;
+            right: 4rem;
+            top: 1.5rem;
+            color: #fff;
+            font-size: 2rem;
+            display: none;
+        }
+
+        .search {
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            border-radius: 50px;
+            font-family: inherit;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            color: #fff;
+        }
+        .hidden {
+            display: none;
+        }
+        .visible {
+            display: block;
+        }
+
+        #searchForm.visible {
+            display: inline-block;
+        }
+
+        .fa-magnifying-glass {
+            cursor: pointer;
+       }
+
+
+
+        .search::placeholder {
+            color: #7378c5;
+        }
+
+        .search:focus {
+            outline: none;
+            background-color: var(--transparent);
+        }
+        /* ------------ */
+        .movie-details-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
+        .trailer-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        .trailer-container iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+            border-radius: 8px;
+        }
+        .movie-description{
+            display: flex;
+            justify-content: flex-start;
+            gap: 15%;
+            margin: 3rem 5%;
+        }
+        .movie-description img{
+            width: 330px;
+            height: 455px;
+        }
+        .movie-description .movie-content{
+            height: 455px;
+            margin-top: 1rem;
+            margin-bottom: 3.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        .movie-content h1{
+            color: #fff;
+            font-weight: 500;
+            font-size: 2.4rem;
+        }
+        .movie-content p{
+            color: #d9d9d9;
+            font-weight: 400;
+            font-size: 1.1rem;
+        }
+        .movie-content .movie-type{
+            margin-top: 1.4rem;
+            display: flex;
+            justify-content: flex-start;
+            gap: 1rem;
+        }
+
+        .movie-type .line{
+            height: 25px;
+            width: 1px;
+            background-color: var(--gray);
+        }
+        .movie-type p,
+        soan{
+            color: var(--gray);
+        }
+        span{
+            font-weight: 300;
+        }
+
+        .movie-content .imdb{
+            margin-top: 1.5rem;
+        }
+        .imdb p{
+            margin-top: 0.75rem;
+        }
+        .movie-desc-2{
+            width: 90%;
+            display: flex;
+            justify-content: flex-start;
+            flex-direction: column;
+            margin-top: 2rem;
+        }
+        h2{
+            color: #fff;
+            font-weight: 500;
+            font-size: 2.15rem;
+        }
+        .movie-desc-2 p{
+            margin-top: 1.5rem;
+            color: var(--gray);
+            font-weight: 400;
+            letter-spacing: 1px;
+            line-height: 25px;
+        }
+        /* ------------ */
+        .movie-credits {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+         .movie-credits h2 {
+            font-size: 1.8rem;
+            margin-top: 6rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .credit-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .credit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 150px;
+        }
+        .credit img {
+            width: 150px;
+            height: 225px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+        .credit p {
+            font-size: 1rem;
+            color: var(--gray);
+            margin-top: 0.5rem;
+        }
+        /* ------------ */
+
+        .subscribe{
+            width: 100%;
+            height: 300px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-image: url(./images/subscribe.svg);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 0 5%;
+            margin-top: 4rem;
+        }
+
+        .subscribe .subs-content{
+            width: 600px;
+        }
+        .subs-content h3{
+            color: #fff;
+            font-size: 1.6rem;
+            font-weight: 500;
+        }
+        .subscribe .subs-btn{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .subs-btn .email{
+            width: 270px;
+            height: 40px;
+            background-color: transparent;
+            font-family: 'Montserrat',sans-serif;
+            color: #d9d9d9;
+            padding: 0 1rem;
+            border: 2px solid var(--red);
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+            position: relative;
+        }
+        .subs-btn .email:focus{
+            border: 2px solid var(--red);
+            outline: none;
+        }
+        .subs-btn .email::placeholder{
+            color: var(--comment);
+        }
+
+        .subs-btn .input-btn{
+            position: relative;
+            left: -5px;
+            width: 125px;
+            height: 40px;
+            background-color: var(--red);
+            color: #fff;
+            font-family:'Montserrat',sans-serif;
+            font-weight: 600;
+            border: none;
+            outline: none;
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+            cursor: pointer;
+            transition: all 0.25s ease-in-out;
+            -webkit-transition: all 0.25s ease-in-out;
+            -moz-transition: all 0.25s ease-in-out;
+            -ms-transition: all 0.25s ease-in-out;
+            -o-transition: all 0.25s ease-in-out;
+        }
+
+        .subs-btn .input-btn:hover{
+            background-color: #d9d9d9;
+            color: var(--red);
+        }
+
+
+        /* ------------ */
+        .footer{
+            position: relative;
+            width: 100%;
+            height: 120px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            background-color: #171B27;
+        }
+
+        .footer div{
+            height: 60px;
+        }
+        .footer h4{
+            color: #d9d9d9;
+            margin-top: 0.4rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .footer .footer-social{
+            margin-top: 0.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .footer-social i{
+            width: 29px;
+            height: 29px;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            -o-border-radius: 50%;
+            background-color: var(--red);
+            color: var(--black);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.2s ease;
+            -webkit-transition: all 0.2s ease;
+            -moz-transition: all 0.2s ease;
+            -ms-transition: all 0.2s ease;
+            -o-transition: all 0.2s ease;
+        }
+
+        .footer-social i:hover{
+            background-color: var(--black);
+            color: var(--red);
+            transform: scale(1.1);
+            -webkit-transform: scale(1.1);
+            -moz-transform: scale(1.1);
+            -ms-transform: scale(1.1);
+            -o-transform: scale(1.1);
+        }
+
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: hidden; 
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            height: 80%;
+            background-color: #000;
+            padding: 0;
+            border: none;
+            box-shadow: none;
+        }
+        .modal-content iframe {
+            width: 90%;
+            height: 100%;
+            border: none;
+        }
+
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 5px;
+            color: #fff;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        /* Watch Trailer butonu için stil */
+        .watch-trailer-btn {
+            width: 160px;
+            height: 40px;
+            padding: 10px 20px;
+            margin-top: 25px;
+            background-color: transparent;
+            color: red;
+            font-family: 'Montserrat',sans-serif;
+            font-weight: 600;
+            border-radius: 8px;
+            -webkit-border-radius: 8px;
+            -moz-border-radius: 8px;
+            -ms-border-radius: 8px;
+            -o-border-radius: 8px;
+            border: 2px solid #f6f6f6;
+            cursor: pointer;
+            transition: all 0.25s ease-in-out;
+            -webkit-transition: all 0.25s ease-in-out;
+            -moz-transition: all 0.25s ease-in-out;
+            -ms-transition: all 0.25s ease-in-out;
+            -o-transition: all 0.25s ease-in-out;
+        }
+
+        .watch-trailer-btn:hover {
+            background-color: #f6f6f6;
+            color: var(--black);
+        }
+
+        .movie-actions {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 2rem; /* Adjust as needed */
+        }
+
+        .action-button {
+            background: none;
+            border: none;
+            color: var(--red);
+            font-size: 1.85rem;
+            cursor: pointer;
+            transition: color 0.25s ease-in-out;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            
+        }
+
+        .action-button i:hover {
+            color: white;
+        }
+
+        .like-button i {
+            color: var(--red);
+        }
+
+        .watch-later-button i {
+            color: var(--red);
+        }
+
+        /* ------------ */
+
+
+        .comments{
+            width: 90%;
+            margin-top: 10%;
+            margin-left: 5%;
+            margin-right: 5%;
+        }
+        .comments .comment-box{
+            margin-top: 2rem;
+        }
+
+        .comments .comment-box input{
+            width: 700px;
+            height: 60px;
+            background-color: var(--comment-box);
+            border-radius: 20px;
+            -webkit-border-radius: 20px;
+            -moz-border-radius: 20px;
+            -ms-border-radius: 20px;
+            -o-border-radius: 20px;
+            border: none;
+            outline: none;
+            padding: 0 2rem;
+            font-size: 0.8rem;
+            font-family: 'Montserrat',sans-serif;
+            color: #fff;
+        }
+
+
+        .comments .users .user{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 4rem;
+            margin-top: 2rem;
+        }
+
+        .comments .users .user-com{
+            padding: 1rem;
+            width: 600px;
+            height: 120px;
+            background-color: var(--comment-box);
+            border-radius: 25px;
+            -webkit-border-radius: 25px;
+            -moz-border-radius: 25px;
+            -ms-border-radius: 25px;
+            -o-border-radius: 25px;
+        }
+
+        .user-com .info{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .user-com h4{
+            color: #fff;
+            width: 150px;
+            cursor: pointer;
+        }
+
+        .user-com p{
+            color: var(--gray);
+            font-weight: 400;
+        }
+
+        .user-com .comment{
+            margin-top: 1.2rem;
+        }
+        .comment .warning{
+            color: var(--warning);
+            cursor: pointer;
+        }
+
+        /* ------------ */
+
+
+        @media(max-width:1200px){
+            .header .navBar .nav-items{
+                display: none;
+                height: 100vh;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                background-color: var(--red);
+                transition: top 1s ease;
+                -webkit-transition: top 1s ease;
+                -moz-transition: top 1s ease;
+                -ms-transition: top 1s ease;
+                -o-transition: top 1s ease;
+            }
+            .header .navBar .list{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+            .header .navBar .list a{
+                font-size: 1.35rem;
+            }
+            .navBar .list a:hover{
+                color: var(--comment-box);
+            }
+            .header .navBar .list .close-btn i{
+                display: block;
+            }
+            .header .navBar .open-btn{
+                display: block;
+            }
+            .navBar .user{
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 55;
+            }
+            .navBar .user li i{
+                font-size: 1.5rem;
+            }
+            .navBar .user li i:hover{
+                color: var(--comment-box);
+            }
+
+            .subscribe{
+                height: 300px;
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto;
+                padding: 0 5%;
+            }
+
+            .subscribe .subs-content{
+                width: 90%;
+                padding: 0 7%;
+            }
+            .subs-content h3{
+                font-size: 1.25rem;
+            }
+            .subs-btn{
+                display: flex;
+                justify-content: center;
+                margin-top: 2rem;
+            }
+            .subs-btn .email{
+                width: 175px;
+                height: 30px;
+                font-size: 0.65rem;
+            }
+            .subs-btn .input-btn{
+                width: 80px;
+                height: 30px;
+                font-size: 0.5rem;
+            }
+
+            .footer{
+                height: 500px;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .comments{
+                margin-top: 30%;
+            }
+            .comments h2{
+                font-size: 1.4rem;
+            }
+            .comments .comment-box input{
+                width: 400px;
+            }
+
+
+            .users .user-com{
+                width: 350px;
+            }
+            .user-com p{
+                font-size: 0.6rem;
+            }
+        }
+        @media screen and (max-width: 992px) {
+            .movie-description {
+                flex-direction: column;
+                align-items: center;
+                gap: 2rem;
+            }
+
+            .movie-description img {
+                width: 100%;
+                max-width: 400px;
+                height: auto;
+            }
+
+            .movie-description .movie-content {
+                margin-top: 0;
+                align-items: center;
+                text-align: center;
+            }
+
+            .movie-content h1 {
+                font-size: 2rem;
+            }
+
+            .movie-content p {
+                font-size: 1rem;
+            }
+
+            .movie-content .movie-type {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .movie-content p {
+                font-size: 0.8rem;
+            }
+
+            .movie-credits {
+                margin-top: 25rem; /* Adding margin to separate from description */
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                padding: 0 1rem;
+            }
+
+            .movie-credits h2 {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .credit-list {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.5rem;
+                margin-top: 1.5rem; /* Ensuring enough space from the title */
+            }
+
+            .credit {
+                width: 120px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .credit img {
+                width: 120px;
+                height: 180px;
+            }
+
+            .credit p {
+                font-size: 0.8rem;
+            }
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <h1>SudePurr</h1>
+            </div>
+                
+                <nav class="navBar">
+                    <div class="open-btn" id="open">
+                        <i class="fa-solid fa-bars"></i>
+                    </div>
+                    <div class="nav-items">
+                        <ul class="list">
+                            <li><a href="/home" id="homeLink">Home</a></li>
+                            <li><a href="#" data-target="movies-title">Movies</a></li>
+                            <li><a href="#" data-target="tv-series-title">TV Series</a></li>
+                            <li><a href="#" data-target="new-releases-title" > New Releases</a></li>
+                            <li><a href="#">My List</a></li>
+                            <div class="close-btn" id="close">
+                                <i class="fa-solid fa-xmark"></i>
+                            </div>
+                        </ul>
+                        <ul class="user">
+                           <li>
+                                <i class="fa-solid fa-magnifying-glass" id="searchIcon"></i>
+                                <form id="searchForm" class="hidden">
+                                    <input type="text" name="search" id="search" class="search" placeholder="Search">
+                                </form>
+                            </li>
+
+                           <li sec:authorize="isAuthenticated()">
+                                <a href="/logout" class="fa-solid fa-right-from-bracket" id="logout"></a>
+                            </li>
+            
+                            <li sec:authorize="isAuthenticated()">
+                                <a class="fa-solid fa-user" href="/profile.html" id="profileLink"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+        </header>
+        <div class="movie-details-container">
+            <div class="trailer-container">
+                <!-- Trailer will be inserted here -->
+
+            </div>
+
+            <div class="movie-details">
+                <!-- Movie details will be inserted here -->
+            </div>
+            <div id="trailerModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <iframe id="trailer-iframe" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
+            </div>
+            
+            <div class="movie-credits">
+                <!-- Director and Cast details will be inserted here -->
+            </div>
+
+            <div class="comments">
+                <h2>Comments</h2>
+                <div class="comment-box">
+                    <input type="text" placeholder="Leave a Comment">
+                </div>
+
+                <div class="users">
+                    <div class="user">
+                        <div class="profile">
+                        </div>
+                        <div class="user-com">
+                            <div class="info">
+                                <div class="name">
+                                    <h4>Nia Rene</h4>
+                                </div>
+                                <div class="date">
+                                    <p>25/01/2023 <span>11:36 PM</span></p>
+                                </div>
+                            </div>
+                            <div class="comment">
+                                <p>One of the greatest shows ever, the pacing is excellent. The characters are well developed and entertaining.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user">
+                        <div class="profile">
+                        </div>
+                        <div class="user-com">
+                            <div class="info">
+                                <div class="name">
+                                    <h4>Dannie Giles</h4>
+                                </div>
+                                <div class="date">
+                                    <p>23/01/2023 <span>04:28 PM</span></p>
+                                </div>
+                            </div>
+                            <div class="comment">
+                                <p>I cannot stress enough how good this show is. I've watched a lot of TV in my life and this show still remains the best show I've ever seen.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user">
+                        <div class="profile">
+                        </div>
+                        <div class="user-com">
+                            <div class="info">
+                                <div class="name">
+                                    <h4>Ronnie Joss</h4>
+                                </div>
+                                <div class="date">
+                                    <p>20/01/2023 <span>09:18 AM</span></p>
+                                </div>
+                            </div>
+                            <div class="comment">
+                                <p class="warning">Warning: Spoiler</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+           
+    </div>
+
+    <div class="subscribe">
+        <div class="subs-content">
+            <h3>Subscribe to the newsletter and be the first to know about new releases of your favourite TV series and movies</h3>
+        </div>
+        <div class="subs-btn">
+            <input type="email" class="email" placeholder="Your email address...">
+            <input type="button" value="Subscribe now" class="input-btn">
+        </div>
+    </div>
+
+
+    <footer class="footer">
+        <div>
+            <h4>Movies</h4>
+            <h4>TV Series</h4>
+            <h4>Animated Movies</h4>
+        </div>
+        <div>
+            <h4>Privacy Policy</h4>
+            <h4>Cookie Policy</h4>
+            <h4>Terms of Use</h4>
+        </div>
+        <div>
+            <h4>Help Center</h4>
+            <h4>Support</h4>
+            <h4>FAQ</h4>
+        </div>
+        <div>
+            <h4>Follow Us</h4>
+            <div class="footer-social">
+                <i class="fa-brands fa-instagram"></i>
+                <i class="fa-brands fa-facebook-f"></i>
+                <i class="fa-brands fa-twitter"></i>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="https://code.jquery.com/jquery-3.6.3.slim.min.js" integrity="sha256-ZwqZIVdD3iXNyGHbSYdsmWP//UBokj2FHAxKuSBKDSo="crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script th:inline="none">
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navbar Home butonuna tıklama işlevi
+            document.getElementById('homeLink').addEventListener('click', function(event) {
+                // Home linkinin doğru bir şekilde çalıştığından emin olun
+                console.log('Home link clicked');
+                // Eğer gerekli ise burada başka işlemler yapabilirsiniz
+            });
+        
+            // Logout butonuna tıklama işlevi
+            document.getElementById('logout').addEventListener('click', function(event) {
+                // Logout linkinin doğru bir şekilde çalıştığından emin olun
+                console.log('Logout link clicked');
+                // Eğer logout işlevi JavaScript tarafında yapılacaksa, bu işlevi buraya ekleyin
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const movieId = urlParams.get('id');
+            const API_KEY = '74b6f332309efef4698eec7d9510c312';
+            const IMG_PATH = 'https://image.tmdb.org/t/p/w1280';
+            const searchIcon = document.getElementById('searchIcon');
+		
+		    searchIcon.addEventListener('click', function() {
+		        // `index.html` sayfasına yönlendir ve arama formunu aç
+		        window.location.href = '/?search=true';
+		    });
+		    const search = urlParams.get('search');
+		
+		    if (search) {
+		        const searchForm = document.getElementById('searchForm');
+		        searchForm.classList.remove('hidden'); // Arama formunu göster
+		        document.getElementById('search').focus(); // Arama inputuna odaklan
+		    }
+
+            if (movieId) {
+                    // Film Detayları
+                    fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&language=en-US`)
+                        .then(response => response.json())
+                        .then(data => {
+                            displayMovieDetails(data);
+                        })
+                        .catch(error => console.error('Error fetching movie details:', error));
+
+                    // Film Kadrosu (Yönetmen ve Oyuncular)
+                    fetch(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${API_KEY}&language=en-US`)
+                        .then(response => response.json())
+                        .then(data => {
+                            displayMovieCredits(data);
+                        })
+                        .catch(error => console.error('Error fetching movie credits:', error));
+
+                    // Fragmanlar
+                    fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${API_KEY}&language=en-US`)
+                        .then(response => response.json())
+                        .then(data => {
+                            displayMovieVideos(data);
+                        })
+                        .catch(error => console.error('Error fetching movie videos:', error));
+                }
+
+                // Film Detaylarını Sayfada Gösterme
+                function displayMovieDetails(data) {
+                    const movieDetailsHTML = `
+                         <div class="movie-description">
+                            <div class="movie-image">
+                                <img src="https://image.tmdb.org/t/p/w500${data.poster_path}" alt="${data.title}">
+                            </div>
+                            <div class="movie-content">
+                                <h1>${data.title}</h1>
+                               <div class="movie-type">
+                                    ${data.genres.map((genre, index) => `
+                                        <p>${genre.name}</p>
+                                        ${index < data.genres.length - 1 ? '<div class="line"></div>' : ''}
+                                    `).join('')}
+                                </div>
+                                <div class="imdb">
+                                    <p>IMDb: ${data.vote_average}</p>
+                                    <p>Language: ${data.original_language.toUpperCase()}</p>
+                                    <p>Duration: ${Math.floor(data.runtime / 60)}h ${data.runtime % 60}m</p>
+                                </div>
+                                <div class="movie-desc-2">
+                                    <h2>Description</h2>
+                                    <p>${data.overview}</p>
+                                </div>
+                                <div class="movie-actions">
+                                    <button id="likeBtn" class="action-button like-button">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </button>
+                                    <button id="watchLaterBtn" class="action-button watch-later-button">
+                                        <i class="fa-regular fa-clock"></i>
+                                    </button>
+                                </div>
+                                <button id="watchTrailerBtn" class="watch-trailer-btn">Watch Trailer</button>
+                                    
+                                
+                            </div>
+                        </div>
+                    `;
+                    document.querySelector('.movie-details').innerHTML = movieDetailsHTML;
+                    
+
+                    // "Like" butonunun işlevini ekleyin
+                    document.getElementById('likeBtn').onclick = function() {
+                        handleLike(data.id);
+                    };
+
+                    // "Watch Later" butonunun işlevini ekleyin
+                    document.getElementById('watchLaterBtn').onclick = function() {
+                        handleWatchLater(data.id);
+        };
+                }
+
+                // Film Kadrosunu Sayfada Gösterme
+                function displayMovieCredits(data) {
+                    const directors = data.crew.filter(member => member.job === 'Director');
+                    const actors = data.cast.slice(0, 5); // İlk 5 oyuncu
+
+                    const movieCreditsHTML = `
+                        <h2>Director</h2>
+                        <div class="credit-list">
+                            ${directors.map(director => `
+                                <div class="credit" data-id="${director.id}" data-type="director">
+                                    <img src="https://image.tmdb.org/t/p/w500${director.profile_path}" alt="${director.name}">
+                                    <p>${director.name}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <h2>Cast</h2>
+                        <div class="credit-list">
+                            ${actors.map(actor => `
+                                <div class="credit" data-id="${actor.id}" data-type="actor">
+                                    <img src="https://image.tmdb.org/t/p/w500${actor.profile_path}" alt="${actor.name}">
+                                    <p>${actor.name}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    document.querySelector('.movie-credits').innerHTML = movieCreditsHTML;
+                    // Kredi (Yönetmen veya Oyuncu) tıklama işlevi
+                    document.querySelectorAll('.credit').forEach(credit => {
+                        credit.addEventListener('click', function() {
+                            const id = this.getAttribute('data-id');
+                            const type = this.getAttribute('data-type');
+                            window.location.href = `castInfo.html?id=${id}&type=${type}`;
+                        });
+                    });
+                }
+
+                // Fragmanları Sayfada Gösterme
+                function displayMovieVideos(data) {
+                    const trailer = data.results.find(video => video.type === 'Trailer');
+                    if (trailer) {
+                        const trailerURL = `https://www.youtube.com/embed/${trailer.key}`;
+                        document.getElementById('watchTrailerBtn').onclick = function() {
+                            showTrailer(trailerURL);
+                        };
+                    }
+                }
+
+                // Fragmanı Gösterme
+                function showTrailer(url) {
+                    const modal = document.getElementById('trailerModal');
+                    const iframe = document.getElementById('trailer-iframe');
+                    iframe.src = `${url}?autoplay=1`;
+                    modal.style.display = "block";
+
+                    // Modal kapama işlevi
+                    const closeBtn = document.querySelector('.modal .close');
+                    closeBtn.onclick = function() {
+                        modal.style.display = "none";
+                        iframe.src = ""; // Stop video
+                    }
+
+                    window.onclick = function(event) {
+                        if (event.target == modal) {
+                            modal.style.display = "none";
+                            iframe.src = ""; // Stop video
+                        }
+                    }
+                }
+
+                // Like butonuna tıklama işlevi
+                function handleLike(movieId) {
+                    console.log(`Movie ${movieId} liked`);
+                    // Implement your like functionality here
+                }
+
+                // Watch Later butonuna tıklama işlevi
+                function handleWatchLater(movieId) {
+                    console.log(`Movie ${movieId} added to Watch Later`);
+                    // Implement your watch later functionality here
+                }
+                document.querySelectorAll('a[data-target]').forEach(link => {
+                    link.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        const targetId = this.getAttribute('data-target');
+                        window.location.href = `/#${targetId}`;
+                    });
+                });
+                    });
+            
+
+    </script>
+</body>
+</html>

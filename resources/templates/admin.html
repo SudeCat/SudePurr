@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+		body {
+		    margin: 0;
+		    font-family: Arial, sans-serif;
+		    background-color: #121212;
+		    color: #ffffff;
+		}
+		
+		.admin-container {
+		    display: flex;
+		    height: 100vh;
+		}
+		
+		.sidebar {
+		    width: 250px;
+		    background-color: #1c1c1c;
+		    padding-top: 20px;
+		}
+		
+		.sidebar-header {
+		    text-align: center;
+		    padding: 10px 0;
+		    color: #e50914;
+		}
+		
+		.sidebar-menu {
+		    list-style: none;
+		    padding: 0;
+		}
+		
+		.sidebar-menu li {
+		    padding: 15px 20px;
+		}
+		
+		.sidebar-menu li a {
+		    color: #ffffff;
+		    text-decoration: none;
+		    display: flex;
+		    align-items: center;
+		}
+		
+		.sidebar-menu li a:hover {
+		    background-color: #333;
+		}
+		
+		.sidebar-menu li a i {
+		    margin-right: 10px;
+		}
+		
+		.main-content {
+		    flex: 1;
+		    padding: 20px;
+		    overflow-y: auto;
+		}
+		
+		.header {
+		    background-color: #e50914;
+		    padding: 15px;
+		    text-align: center;
+		}
+		
+		.content {
+		    margin-top: 20px;
+		}
+		
+		.cards {
+		    display: flex;
+		    gap: 20px;
+		}
+		
+		.card {
+		    background-color: #1c1c1c;
+		    border: 1px solid #333;
+		    border-radius: 8px;
+		    flex: 1;
+		    text-align: center;
+		}
+		
+		.card-header {
+		    background-color: #e50914;
+		    padding: 10px;
+		    border-top-left-radius: 8px;
+		    border-top-right-radius: 8px;
+		}
+		
+		.card-body {
+		    padding: 20px;
+		}
+		
+		.card-body p {
+		    font-size: 2rem;
+		}
+
+	</style>
+</head>
+<body>
+    <div class="admin-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="#"><i class="fas fa-users"></i> Users</a></li>
+                <li><a href="#"><i class="fas fa-film"></i> Movies</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </aside>
+        <main class="main-content">
+            <header class="header">
+                <h1>Welcome, Admin!</h1>
+            </header>
+            <section class="content">
+                <h2>Dashboard</h2>
+                <div class="cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Total Users</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>1500</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Total Movies</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>200</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>New Registrations</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>50</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

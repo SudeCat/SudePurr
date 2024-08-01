@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cast Info</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KyZXEAg3QhqLMpG8r+Knujsl5+yV5kII3M5xq7d5w2mDUMJ2QftcKCh2vZ1U6HZVqz5G1jbB5EmP7UuBlFV9GQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Lemon&family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400&display=swap');
+
+        :root{
+
+            --red:#880808;
+            --black: #101116;
+            --gray: #bebebe;
+            --light-gray: #d9d9d9;
+            --comment-box: #171B27;
+            --comment:#555D68;
+            --comment-date:#8A8A8A;
+            --warning:#E22C2C;
+            --yellow:#EEE62F;
+        }
+
+        ::-webkit-scrollbar{
+            width: 18px;
+        }
+        ::-webkit-scrollbar-track{
+            background: var(--comment-box);
+        }
+        ::-webkit-scrollbar-thumb{
+            background: var(--comment);
+        }
+
+
+        a{
+            text-decoration: none;
+        }
+        i{
+            cursor: pointer;
+        }
+        li{
+            list-style-type: none;
+        }
+        img{
+            cursor: pointer;
+        }
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            width: 100%;
+            font-family: 'Montserrat',sans-serif;
+            background-color: #0B1118;
+        }
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        /* ------HEADER------ */
+        .container{
+            position: relative;
+            width: 100%;
+            height: auto;
+            z-index: 55;
+        }
+        .container .header{
+            width: 100%;
+            height: 70px;
+            padding: 2rem 10%;
+            z-index: 55;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header .logo h1{
+            color: var(--red);
+            font-size: 2.4rem;
+            cursor: pointer;
+            font-family: 'Lemon',cursive;
+        }
+        .navBar .nav-items{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .navBar ul{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .navBar ul li a{
+            color: #fff;
+            font-size: 1.15rem;
+            font-weight: 600;
+            transition: color 0.25s ease-in-out;
+            -webkit-transition: color 0.25s ease-in-out;
+            -moz-transition: color 0.25s ease-in-out;
+            -ms-transition: color 0.25s ease-in-out;
+            -o-transition: color 0.25s ease-in-out;
+        }
+        .navBar ul li a:hover{
+            color: var(--red);
+        }
+        .navBar .user i{
+            font-size: 1.3rem;
+            color: #fff;
+            transition: color 0.25s ease-in-out;
+           -webkit-transition: color 0.25s ease-in-out;
+            -moz-transition: color 0.25s ease-in-out;
+            -ms-transition: color 0.25s ease-in-out;
+            -o-transition: color 0.25s ease-in-out;
+        }
+
+        .navBar .user i:hover{
+            color: var(--red);
+        }
+
+        .navBar .close-btn i{
+            font-size: 2.4rem;
+            color: #fff;
+            position: absolute;
+            top: 2rem;
+            right: 3rem;
+            display: none;
+        }
+
+        .header .navBar .open-btn{
+            position: absolute;
+            right: 4rem;
+            top: 1.5rem;
+            color: #fff;
+            font-size: 2rem;
+            display: none;
+        }
+
+        .search {
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            border-radius: 50px;
+            font-family: inherit;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            color: #fff;
+        }
+        .hidden {
+            display: none;
+        }
+        .visible {
+            display: block;
+        }
+
+        #searchForm.visible {
+            display: inline-block;
+        }
+
+        .fa-magnifying-glass {
+            cursor: pointer;
+       }
+
+        .search::placeholder {
+            color: #7378c5;
+        }
+
+        .search:focus {
+            outline: none;
+            background-color: var(--transparent);
+        }
+
+        /* -------------- */
+        .cast-details-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding: 2rem 1rem;
+            border-radius: 10px;
+            margin: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            color: white;
+            text-align: center;
+        }
+        .cast-content{
+            display: flex;
+            justify-content: flex-start;
+            gap: 15%;
+            margin: 3rem 5%;
+        }
+        .cast-image {
+            width: 330px;
+            height: 455px;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            margin-right: 2rem;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .cast-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .cast-details {
+            position: relative;
+            height: 455px;
+            margin-top: 1rem;
+            margin-bottom: 3.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+
+        }
+
+        .cast-details h2 {
+            color: #fff;
+            font-weight: 500;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .cast-details p {
+            margin-bottom: 1.5rem;
+            color: #d9d9d9;
+            font-weight: 400;
+            font-size: 1.3rem;
+        }
+
+        /* Info Icon and Popup */
+        .info-icon {
+            font-size: 1.5rem;
+            color: var(--red);
+            cursor: pointer;
+            margin-left: 1rem;
+            transition: color 0.25s ease-in-out;
+        }
+
+        .info-icon:hover {
+            color: var(--white);
+        }
+
+        .info-content {
+            max-height: 200px; /* Adjust based on your design */
+            overflow-y: auto;
+            background: var(--comment-box);
+            padding: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: opacity 0.3s ease-in-out;
+            position: absolute;
+            top: 70%; /* Position below the icon */
+            width: 500px; /* Adjust based on your design */
+            z-index: 10; /* Ensure it's above other content */
+        }
+
+        .info-content.hidden {
+            display: none;
+        }
+
+
+        .cast-movies {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            
+        }
+
+        .cast-movies h2 {
+            text-align: left;
+            font-size: 1.5rem;
+            color: var(--red);
+            margin-bottom: 2rem;
+        }
+
+        .cast-movies .movie-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 1rem;
+        }
+
+        .cast-movies .movie {
+            width: calc(25% - 5rem); 
+            height: 350px;
+            background-color: var(--black);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+
+            justify-content: space-between;
+        }
+
+        .cast-movies .movie img {
+            width: 75%;
+            height: 80%;
+            object-fit: cover;
+        }
+
+        .cast-movies .movie p {
+            font-size: 0.9rem;
+            color: var(--white);
+            padding: 0.5rem;
+            text-align: center;
+        }
+        .show-more {
+            color: var(--red);
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        
+
+        /* ------------- */
+
+        .subscribe{
+            width: 100%;
+            height: 300px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-image: url(./images/subscribe.svg);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 0 5%;
+            margin-top: 4rem;
+        }
+
+        .subscribe .subs-content{
+            width: 600px;
+        }
+        .subs-content h3{
+            color: #fff;
+            font-size: 1.6rem;
+            font-weight: 500;
+        }
+        .subscribe .subs-btn{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .subs-btn .email{
+            width: 270px;
+            height: 40px;
+            background-color: transparent;
+            font-family: 'Montserrat',sans-serif;
+            color: #d9d9d9;
+            padding: 0 1rem;
+            border: 2px solid var(--red);
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+            position: relative;
+        }
+        .subs-btn .email:focus{
+            border: 2px solid var(--red);
+            outline: none;
+        }
+        .subs-btn .email::placeholder{
+            color: var(--comment);
+        }
+
+        .subs-btn .input-btn{
+            position: relative;
+            left: -5px;
+            width: 125px;
+            height: 40px;
+            background-color: var(--red);
+            color: #fff;
+            font-family:'Montserrat',sans-serif;
+            font-weight: 600;
+            border: none;
+            outline: none;
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+            cursor: pointer;
+            transition: all 0.25s ease-in-out;
+            -webkit-transition: all 0.25s ease-in-out;
+            -moz-transition: all 0.25s ease-in-out;
+            -ms-transition: all 0.25s ease-in-out;
+            -o-transition: all 0.25s ease-in-out;
+        }
+
+        .subs-btn .input-btn:hover{
+            background-color: #d9d9d9;
+            color: var(--red);
+        }
+
+
+        /* ------------ */
+        .footer{
+            position: relative;
+            width: 100%;
+            height: 120px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            background-color: #171B27;
+        }
+
+        .footer div{
+            height: 60px;
+        }
+        .footer h4{
+            color: #d9d9d9;
+            margin-top: 0.4rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .footer .footer-social{
+            margin-top: 0.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .footer-social i{
+            width: 29px;
+            height: 29px;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            -o-border-radius: 50%;
+            background-color: var(--red);
+            color: var(--black);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.2s ease;
+            -webkit-transition: all 0.2s ease;
+            -moz-transition: all 0.2s ease;
+            -ms-transition: all 0.2s ease;
+            -o-transition: all 0.2s ease;
+        }
+
+        .footer-social i:hover{
+            background-color: var(--black);
+            color: var(--red);
+            transform: scale(1.1);
+            -webkit-transform: scale(1.1);
+            -moz-transform: scale(1.1);
+            -ms-transform: scale(1.1);
+            -o-transform: scale(1.1);
+        }
+
+        /* ------------ */
+         @media(max-width:1200px){
+            .header .navBar .nav-items{
+                display: none;
+                height: 100vh;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                background-color: var(--red);
+                transition: top 1s ease;
+                -webkit-transition: top 1s ease;
+                -moz-transition: top 1s ease;
+                -ms-transition: top 1s ease;
+                -o-transition: top 1s ease;
+            }
+            .header .navBar .list{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+            .header .navBar .list a{
+                font-size: 1.35rem;
+            }
+            .navBar .list a:hover{
+                color: var(--comment-box);
+            }
+            .header .navBar .list .close-btn i{
+                display: block;
+            }
+            .header .navBar .open-btn{
+                display: block;
+            }
+            .navBar .user{
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 55;
+            }
+            .navBar .user li i{
+                font-size: 1.5rem;
+            }
+            .navBar .user li i:hover{
+                color: var(--comment-box);
+            }
+
+            .subscribe{
+                height: 300px;
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto;
+                padding: 0 5%;
+            }
+
+            .subscribe .subs-content{
+                width: 90%;
+                padding: 0 7%;
+            }
+            .subs-content h3{
+                font-size: 1.25rem;
+            }
+            .subs-btn{
+                display: flex;
+                justify-content: center;
+                margin-top: 2rem;
+            }
+            .subs-btn .email{
+                width: 175px;
+                height: 30px;
+                font-size: 0.65rem;
+            }
+            .subs-btn .input-btn{
+                width: 80px;
+                height: 30px;
+                font-size: 0.5rem;
+            }
+
+            .footer{
+                height: 500px;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                gap: 2rem;
+            }
+        }
+        /* Responsive styles for cast-details-container and its children */
+
+        @media(max-width: 1200px) {
+            .cast-details-container {
+                padding: 1rem;
+                margin: 1rem;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .cast-content {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cast-image {
+                width: 250px;
+                height: 350px;
+                margin-right: 0;
+            }
+
+            .cast-details {
+                margin: 1rem 0;
+            }
+
+            .cast-details h2 {
+                font-size: 2rem;
+            }
+
+            .cast-details p {
+                font-size: 1.1rem;
+            }
+
+            .info-content {
+                width: 90%;
+                top: 65%;
+            }
+
+            .cast-movies {
+                margin-top: 2rem;
+                width: 100%;
+                text-align: center;
+            }
+            .cast-movies h2{
+                margin-top: 2rem;
+                margin-bottom: 2rem;
+            }
+
+            .cast-movies .movie-list {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cast-movies .movie {
+                width: 90%;
+                height: auto;
+                margin-bottom: 1rem;
+            }
+
+            .show-more {
+                font-size: 0.9rem;
+            }
+        }      
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <h1>SudePurr</h1>
+            </div>
+                
+                <nav class="navBar">
+                    <div class="open-btn" id="open">
+                        <i class="fa-solid fa-bars"></i>
+                    </div>
+                    <div class="nav-items">
+                        <ul class="list">
+                            <li><a href="/home" id="homeLink">Home</a></li>
+                            <li><a href="#" data-target="movies-title">Movies</a></li>
+                            <li><a href="#" data-target="tv-series-title">TV Series</a></li>
+                            <li><a href="#" data-target="new-releases-title" > New Releases</a></li>
+                            <li><a href="#">My List</a></li>
+                            <div class="close-btn" id="close">
+                                <i class="fa-solid fa-xmark"></i>
+                            </div>
+                        </ul>
+                        <ul class="user">
+                           <li>
+                                <i class="fa-solid fa-magnifying-glass" id="searchIcon"></i>
+                                <form id="searchForm" class="hidden">
+                                    <input type="text" name="search" id="search" class="search" placeholder="Search">
+                                </form>
+                            </li>
+
+                           <li sec:authorize="isAuthenticated()">
+                                <a href="/logout" class="fa-solid fa-right-from-bracket" id="logout"></a>
+                            </li>
+            
+                            <li sec:authorize="isAuthenticated()">
+                                <a class="fa-solid fa-user" href="/profile.html" id="profileLink"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+        </header>
+        <div class="cast-details-container">
+            <div class="cast-content">
+                <div class="cast-image">
+                    <!-- Cast image will be inserted here -->
+                </div>
+                 <div class="cast-details">
+                    <h2>Cast Name</h2>
+                    <p><span id="birthdate"></span></p>
+                    <p> <span id="birthplace"></span></p>
+                    <p><span id="department"></span></p>
+                   <span id="infoIcon" class="info-icon"><i class="fas fa-info-circle"></i></span>
+                    <div id="infoContent" class="info-content hidden">
+                        <!-- Biography Content Here -->
+                    </div>
+                </div>
+            </div>
+            <div class="cast-movies">
+                <h2>Movies</h2>
+                <!-- Movies will be inserted here -->
+                <div class="movie-list">
+                    <!-- Movies will be inserted here -->
+                </div>
+                <div class="show-more hidden" id="showMore">Show More</div>
+            </div>
+        </div>
+    </div>
+     <div class="subscribe">
+        <div class="subs-content">
+            <h3>Subscribe to the newsletter and be the first to know about new releases of your favourite TV series and movies</h3>
+        </div>
+        <div class="subs-btn">
+            <input type="email" class="email" placeholder="Your email address...">
+            <input type="button" value="Subscribe now" class="input-btn">
+        </div>
+    </div>
+
+
+    <footer class="footer">
+        <div>
+            <h4>Movies</h4>
+            <h4>TV Series</h4>
+            <h4>Animated Movies</h4>
+        </div>
+        <div>
+            <h4>Privacy Policy</h4>
+            <h4>Cookie Policy</h4>
+            <h4>Terms of Use</h4>
+        </div>
+        <div>
+            <h4>Help Center</h4>
+            <h4>Support</h4>
+            <h4>FAQ</h4>
+        </div>
+        <div>
+            <h4>Follow Us</h4>
+            <div class="footer-social">
+                <i class="fa-brands fa-instagram"></i>
+                <i class="fa-brands fa-facebook-f"></i>
+                <i class="fa-brands fa-twitter"></i>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.slim.min.js" integrity="sha256-ZwqZIVdD3iXNyGHbSYdsmWP//UBokj2FHAxKuSBKDSo="crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+			document.querySelectorAll('a[data-target]').forEach(link => {
+                    link.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        const targetId = this.getAttribute('data-target');
+                        window.location.href = `/#${targetId}`;
+                    });
+            });
+	        const urlParams = new URLSearchParams(window.location.search);
+	        const personId = urlParams.get('id');
+	        const API_KEY = '74b6f332309efef4698eec7d9510c312';
+	        const IMG_PATH = 'https://image.tmdb.org/t/p/w1280';
+	        let currentPage = 1;
+	        const moviesPerPage = 4;
+	        const searchIcon = document.getElementById('searchIcon');
+		
+		    searchIcon.addEventListener('click', function() {
+		        // `index.html` sayfasına yönlendir ve arama formunu aç
+		        window.location.href = '/?search=true';
+		    });
+		    const search = urlParams.get('search');
+		
+		    if (search) {
+		        const searchForm = document.getElementById('searchForm');
+		        searchForm.classList.remove('hidden'); // Arama formunu göster
+		        document.getElementById('search').focus(); // Arama inputuna odaklan
+		    }
+
+	
+	        if (personId) {
+	            // Kişi Detayları
+	            fetch(`https://api.themoviedb.org/3/person/${personId}?api_key=${API_KEY}&language=en-US`)
+	                .then(response => response.json())
+	                .then(data => {
+	                    displayPersonDetails(data);
+	                })
+	                .catch(error => console.error('Error fetching person details:', error));
+	
+	            // Kişinin Oynadığı Filmler
+	            fetch(`https://api.themoviedb.org/3/person/${personId}/movie_credits?api_key=${API_KEY}&language=en-US`)
+	                .then(response => response.json())
+	                .then(data => {
+	                    displayPersonMovies(data.cast);
+	                })
+	                .catch(error => console.error('Error fetching person movies:', error));
+	        }
+	
+	        function displayPersonDetails(data) {
+	            const personDetailsHTML = `
+	                <img src="https://image.tmdb.org/t/p/w500${data.profile_path}" alt="${data.name}">              
+	            `;
+	            document.querySelector('.cast-image').innerHTML = personDetailsHTML;
+	            document.querySelector('.cast-details h2').textContent = data.name;
+	            document.getElementById('birthdate').textContent = `Birthdate: ${data.birthday}`;
+	            document.getElementById('birthplace').textContent = `Birthplace: ${data.place_of_birth}`;
+	            document.getElementById('department').textContent = `Department: ${data.known_for_department}`;
+	        }
+	
+	        function displayPersonMovies(movies) {
+	            const totalMovies = movies.length;
+	            let visibleMovies = movies.slice(0, moviesPerPage);
+	            displayMovies(visibleMovies);
+	
+	            if (totalMovies > moviesPerPage) {
+	                document.getElementById('showMore').classList.remove('hidden');
+	            }
+	
+	            document.getElementById('showMore').addEventListener('click', () => {
+	                currentPage++;
+	                visibleMovies = movies.slice(0, currentPage * moviesPerPage);
+	                displayMovies(visibleMovies);
+	
+	                if (visibleMovies.length >= totalMovies) {
+	                    document.getElementById('showMore').classList.add('hidden');
+	                }
+	            });
+	        }
+	
+	        function displayMovies(movies) {
+	            const moviesHTML = movies.map(movie => `
+	                <div class="movie" data-movie-id="${movie.id}">
+	                    <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
+	                    <p>${movie.title}</p>
+	                </div>
+	            `).join('');
+	            document.querySelector('.movie-list').innerHTML = moviesHTML;
+	            
+	            document.querySelectorAll('.movie').forEach(movieElement => {
+	                movieElement.addEventListener('click', function() {
+	                    const movieId = this.getAttribute('data-movie-id');
+	                    window.location.href = `/movieInfo.html?id=${movieId}`;
+	                });
+	            });
+	        }
+	
+	        // Popup functionality
+	        const infoIcon = document.getElementById('infoIcon');
+	        const infoContent = document.getElementById('infoContent');
+	
+	        infoIcon.addEventListener('click', () => {
+	            if (infoContent.classList.contains('hidden')) {
+	                // Fetch person details again to get the biography
+	                fetch(`https://api.themoviedb.org/3/person/${personId}?api_key=${API_KEY}&language=en-US`)
+	                    .then(response => response.json())
+	                    .then(data => {
+	                        infoContent.innerHTML = `
+	                            <p><strong>Biography:</strong></p>
+	                            <p>${data.biography || 'Biography information is not available.'}</p>
+	                        `;
+	                        infoContent.classList.remove('hidden');
+	                    })
+	                    .catch(error => console.error('Error fetching person biography:', error));
+	            } else {
+	                infoContent.classList.add('hidden');
+	            }
+	        });
+	        
+    });
+   
+    </script>
+</body>
+</html>
